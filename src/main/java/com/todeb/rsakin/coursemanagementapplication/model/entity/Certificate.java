@@ -1,4 +1,4 @@
-package com.todeb.rsakin.coursemanagementapplication.model;
+package com.todeb.rsakin.coursemanagementapplication.model.entity;
 
 public class Certificate {
 
