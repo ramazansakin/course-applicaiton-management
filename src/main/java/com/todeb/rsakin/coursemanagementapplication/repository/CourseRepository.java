@@ -51,12 +51,12 @@ public class CourseRepository {
         return courseList;
     }
 
-    public Course getById(Long id) {
+    public Optional<Course> getById(Long id) {
 
         Optional<Course> courseOpt = courseList.stream()
                 .filter(course -> course.getId().equals(id)).findFirst();
 
-        return courseOpt.orElse(null);
+        return courseOpt;
 //
 //        courseList.forEach(course -> {
 //            Long id1 = course.getId();
@@ -69,6 +69,14 @@ public class CourseRepository {
 //            if (course.getId().equals(id))
 //                return course;
 //        }
+    }
+
+    public Course create(Course course) {
+        boolean addStatus = courseList.add(course);
+        if (!addStatus) {
+            return null;
+        }
+        return course;
     }
 
 }
