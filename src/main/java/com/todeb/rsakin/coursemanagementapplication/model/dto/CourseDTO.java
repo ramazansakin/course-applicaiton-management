@@ -14,9 +14,6 @@ public class CourseDTO {
     private String details;
     private double price;
     private int quota;
-    private int numberOfPeopleBought;
-    private int countOfReview;
-    private double point;
     private List<String> keywords;
     private List<LangOptions> langOptions;
 
