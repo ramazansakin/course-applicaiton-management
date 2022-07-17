@@ -1,7 +1,6 @@
 package com.todeb.rsakin.coursemanagementapplication.controller;
 
-import com.todeb.rsakin.coursemanagementapplication.model.ResponseModel;
-import com.todeb.rsakin.coursemanagementapplication.model.Student;
+import com.todeb.rsakin.coursemanagementapplication.model.response.ResponseModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
