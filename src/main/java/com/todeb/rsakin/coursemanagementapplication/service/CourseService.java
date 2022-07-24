@@ -1,7 +1,9 @@
 package com.todeb.rsakin.coursemanagementapplication.service;
 
+import com.todeb.rsakin.coursemanagementapplication.exception.EntityNotFoundException;
 import com.todeb.rsakin.coursemanagementapplication.model.dto.CourseDTO;
 import com.todeb.rsakin.coursemanagementapplication.model.entity.Course;
+import com.todeb.rsakin.coursemanagementapplication.model.entity.Student;
 import com.todeb.rsakin.coursemanagementapplication.model.mapper.CourseMapper;
 import com.todeb.rsakin.coursemanagementapplication.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +44,7 @@ public class CourseService {
 
     public Course getById(Long id) {
         Optional<Course> byId = courseRepository.findById(id);
-        return byId.orElseThrow(() -> new RuntimeException("Course not found!"));
+        return byId.orElseThrow(() -> new EntityNotFoundException("Course", "id : " + id));
     }
 
     public Course create(CourseDTO courseDTO) {
@@ -61,7 +63,7 @@ public class CourseService {
     public Course update(String title, CourseDTO course) {
         Optional<Course> courseByTitle = courseRepository.findCourseByTitle(title);
         if (!courseByTitle.isPresent())
-            return null;
+            throw new EntityNotFoundException("Course", "title : " + title);
 //        Course course1 = new Course();
 //        course1.setId(courseByTitle.get().getId());
         Course updatedCourse = courseByTitle.get();
@@ -75,5 +77,9 @@ public class CourseService {
         return courseRepository.save(updatedCourse);
     }
 
+    public List<Student> getAllStudentsByCourse(Long courseId) {
+        Course byId = getById(courseId);
+        return byId.getStudents();
+    }
 
 }

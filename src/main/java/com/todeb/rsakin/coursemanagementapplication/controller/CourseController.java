@@ -2,6 +2,7 @@ package com.todeb.rsakin.coursemanagementapplication.controller;
 
 import com.todeb.rsakin.coursemanagementapplication.model.dto.CourseDTO;
 import com.todeb.rsakin.coursemanagementapplication.model.entity.Course;
+import com.todeb.rsakin.coursemanagementapplication.model.entity.Student;
 import com.todeb.rsakin.coursemanagementapplication.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/course")
+@RequestMapping("/course")
 public class CourseController {
 
     @Autowired
@@ -33,12 +34,7 @@ public class CourseController {
 
     @GetMapping("/{id}")
     public ResponseEntity getCourseById(@PathVariable("id") Long id) {
-        Course byId;
-        try {
-            byId = courseService.getById(id);
-        } catch (RuntimeException exception) {
-            return ResponseEntity.notFound().build();
-        }
+        Course byId = courseService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(byId);
     }
 
@@ -62,11 +58,7 @@ public class CourseController {
 //    }
     @DeleteMapping
     public ResponseEntity deleteCourse(@RequestParam(name = "id") Long id) {
-        try {
-            courseService.delete(id);
-        } catch (RuntimeException exception) {
-            return ResponseEntity.notFound().build();
-        }
+        courseService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body("Related Course deleted successfully");
     }
 
@@ -80,6 +72,12 @@ public class CourseController {
                     .body("Course could not be updated successfully");
         }
         return ResponseEntity.status(HttpStatus.OK).body(update);
+    }
+
+    @GetMapping("/{course_id}/students")
+    public ResponseEntity getAllStudentsByCourse(@PathVariable("course_id") Long course_id) {
+        List<Student> allStudentsByCourse = courseService.getAllStudentsByCourse(course_id);
+        return ResponseEntity.ok().body(allStudentsByCourse);
     }
 
 
