@@ -1,0 +1,1 @@
+-- INSERT INTO course(title, ...) VALUES ( "Math", .. );
