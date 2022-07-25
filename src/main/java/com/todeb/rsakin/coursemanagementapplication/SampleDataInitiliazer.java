@@ -21,33 +21,35 @@ public class SampleDataInitiliazer implements ApplicationRunner {
     private final UserService userService;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
 
         Role adminRole = new Role();
-        adminRole.setId(1);
-        adminRole.setRole_name("ADMIN");
+        adminRole.setName("ADMIN");
         Role userRole = new Role();
-        userRole.setId(2);
-        userRole.setRole_name("USER");
+        userRole.setName("USER");
 
-        if (!roleRepository.existsById(adminRole.getId())) {
-            roleRepository.save(adminRole);
+        // Creating ADMIN & USER roles
+        Role savedAdminRole = null;
+        if (!roleRepository.existsByName(adminRole.getName())) {
+            savedAdminRole = roleRepository.save(adminRole);
         }
-        if (!roleRepository.existsById(userRole.getId())) {
-            roleRepository.save(userRole);
-        }
-
-        // Creating a sample ADMIN user
-        User adminUser = new User(3, "admin-user", "admin@mail.com", "pass12345",
-                Arrays.asList(adminRole));
-        if (!userRepository.existsById(adminUser.getId())) {
-            userRepository.save(adminUser);
+        Role savedUserRole = null;
+        if (!roleRepository.existsByName(userRole.getName())) {
+            savedUserRole = roleRepository.save(userRole);
         }
 
-        User adminUser2 = new User(7, "admin-user2", "admin2@mail.com", "pass12345",
-                Arrays.asList(adminRole));
-        if (!userRepository.existsById(adminUser2.getId())) {
-            userService.signup(adminUser2);
+        // Creating a sample Admin USER
+        User adminUser = new User(null, "admin-user", "admin@mail.com", "pass1234",
+                Arrays.asList(savedAdminRole));
+        if (!userRepository.existsByUsername(adminUser.getUsername())) {
+            userService.signup(adminUser);
+        }
+
+        // Creating a sample USER
+        User sampleUser = new User(null, "sample-user", "sample@mail.com", "pass1234",
+                Arrays.asList(savedUserRole));
+        if (!userRepository.existsByUsername(sampleUser.getUsername())) {
+            userService.signup(sampleUser);
         }
 
     }
