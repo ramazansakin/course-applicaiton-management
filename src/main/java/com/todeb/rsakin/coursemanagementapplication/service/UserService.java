@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
@@ -58,7 +59,11 @@ public class UserService {
     public String signup(User user) {
         if (!userRepository.existsByUsername(user.getUsername())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(Collections.singletonList(roleRepository.getById(2)));
+            if (CollectionUtils.isEmpty(user.getRoles())) {
+                user.setRoles(
+                        Collections.singletonList(roleRepository.findByName("USER").orElse(null))
+                );
+            }
             userRepository.save(user);
             return jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
         } else {
