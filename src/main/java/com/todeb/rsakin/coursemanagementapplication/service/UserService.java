@@ -61,7 +61,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             if (CollectionUtils.isEmpty(user.getRoles())) {
                 user.setRoles(
-                        Collections.singletonList(roleRepository.findByName("USER").orElse(null))
+                        Collections.singletonList(roleRepository.findByName("ROLE_USER").orElse(null))
                 );
             }
             userRepository.save(user);
@@ -72,7 +72,7 @@ public class UserService {
     }
 
     public void delete(String username) {
-        if (!userRepository.existsByUsername(username)) {
+        if (userRepository.existsByUsername(username)) {
             userRepository.deleteByUsername(username);
         } else {
             throw new CustomJwtException("Username is not found", HttpStatus.NOT_FOUND);
