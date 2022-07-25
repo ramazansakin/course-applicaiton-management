@@ -24,9 +24,9 @@ public class SampleDataInitiliazer implements ApplicationRunner {
     public void run(ApplicationArguments args) {
 
         Role adminRole = new Role();
-        adminRole.setName("ADMIN");
+        adminRole.setName("ROLE_ADMIN");
         Role userRole = new Role();
-        userRole.setName("USER");
+        userRole.setName("ROLE_USER");
 
         // Creating ADMIN & USER roles
         Role savedAdminRole = null;
