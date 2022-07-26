@@ -13,7 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -48,6 +48,6 @@ public class User {
 //            @JoinColumn(name = "role_id")})
 //    public Set<Role> roles;
     @ElementCollection(fetch = FetchType.EAGER)
-    Set<Role> roles;
+    private List<Role> roles;
 
 }
