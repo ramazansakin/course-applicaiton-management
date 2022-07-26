@@ -36,6 +36,12 @@ public class User {
     @Size(min = 5, message = "Minimum password length: 5 characters")
     private String password;
 
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     //    @ManyToMany(cascade = CascadeType.REMOVE)
 //    @JoinTable(name = "user_roles", joinColumns = {
 //            @JoinColumn(name = "user_id")}, inverseJoinColumns = {
