@@ -1,12 +1,14 @@
 package com.todeb.rsakin.coursemanagementapplication.service;
 
 import com.todeb.rsakin.coursemanagementapplication.exception.CustomJwtException;
+import com.todeb.rsakin.coursemanagementapplication.exception.EntityNotFoundException;
 import com.todeb.rsakin.coursemanagementapplication.model.entity.Role;
 import com.todeb.rsakin.coursemanagementapplication.model.entity.User;
 import com.todeb.rsakin.coursemanagementapplication.repository.UserRepository;
 import com.todeb.rsakin.coursemanagementapplication.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -61,7 +63,7 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
 //          Optional<Role> relatedRole = roleRepository.findByName(isAdmin ? "ROLE_ADMIN" : "ROLE_USER");
             Role role = isAdmin ? Role.ROLE_ADMIN : Role.ROLE_CLIENT;
-            user.setRoles(Collections.singleton(role));
+            user.setRoles(Collections.singletonList(role));
             userRepository.save(user);
             return jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
         } else {
@@ -70,11 +72,13 @@ public class UserService {
     }
 
     public void delete(String username) {
-        if (userRepository.existsByUsername(username)) {
-            userRepository.deleteByUsername(username);
-        } else {
-            throw new CustomJwtException("Username is not found", HttpStatus.NOT_FOUND);
+        User byUsername = userRepository.findByUsername(username);
+        if (byUsername == null) {
+            throw new EntityNotFoundException("User", "username : " + username);
+        } else if (byUsername.getRoles().contains(Role.ROLE_ADMIN)) {
+            throw new AccessDeniedException("No permission to delete user : " + username);
         }
+        userRepository.deleteByUsername(username);
     }
 
     public User search(String username) {
