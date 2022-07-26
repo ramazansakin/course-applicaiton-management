@@ -27,19 +27,21 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
     @GetMapping("/all")
     public ResponseEntity getAllCourses() {
         List<Course> allCourses = courseService.getAllCourses();
         return ResponseEntity.ok(allCourses);
     }
 
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
     @GetMapping("/{id}")
     public ResponseEntity getCourseById(@PathVariable("id") Long id) {
         Course byId = courseService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(byId);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/create")
     public ResponseEntity createNewCourse(@RequestBody CourseDTO course) {
         Course respCourse = courseService.create(course);
