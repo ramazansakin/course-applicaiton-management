@@ -50,7 +50,7 @@ public class UserController {
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed("ROLE_ADMIN")
     @DeleteMapping(value = "/delete/{username}")
     public String delete(@PathVariable String username) {
         userService.delete(username);
