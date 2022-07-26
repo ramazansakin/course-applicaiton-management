@@ -6,7 +6,6 @@ import com.todeb.rsakin.coursemanagementapplication.model.dto.UserLoginDTO;
 import com.todeb.rsakin.coursemanagementapplication.model.entity.User;
 import com.todeb.rsakin.coursemanagementapplication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +27,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
+    //    @PreAuthorize("hasRole('ADMIN') OR hasRole('USER')")
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAll();
@@ -46,10 +45,10 @@ public class UserController {
         user.setEmail(userDataDTO.getEmail());
         user.setPassword(userDataDTO.getPassword());
 //        return userService.signup(modelMapper.map(user, User.class));
-        return userService.signup(user);
+        return userService.signup(user, false);
     }
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RolesAllowed("ROLE_ADMIN")
     @DeleteMapping(value = "/delete/{username}")
     public String delete(@PathVariable String username) {

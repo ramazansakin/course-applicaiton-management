@@ -15,7 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -42,6 +42,6 @@ public class User {
     @JoinTable(name = "user_roles", joinColumns = {
             @JoinColumn(name = "user_id")}, inverseJoinColumns = {
             @JoinColumn(name = "role_id")})
-    public List<Role> roles;
+    public Set<Role> roles;
 
 }
