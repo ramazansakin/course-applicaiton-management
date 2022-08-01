@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/signin").permitAll()
                 .antMatchers("/users/signup").permitAll()
                 // Authorize any endpoint by a role
-//                .antMatchers("/users/delete/**").hasRole("ADMIN")
+//                .antMatchers("/users/delete/**").hasRole("ROLE_ADMIN")
                 // Disallow everything else..
                 .anyRequest().authenticated();
 

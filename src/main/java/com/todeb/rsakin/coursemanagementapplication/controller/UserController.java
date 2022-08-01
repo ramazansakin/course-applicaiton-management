@@ -28,7 +28,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_CLIENT')")
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAll();
@@ -49,8 +49,7 @@ public class UserController {
         return userService.signup(user, false);
     }
 
-    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RolesAllowed("ROLE_ADMIN")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/delete/{username}")
     public String delete(@PathVariable String username) {
         userService.delete(username);

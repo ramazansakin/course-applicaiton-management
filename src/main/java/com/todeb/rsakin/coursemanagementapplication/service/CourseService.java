@@ -7,12 +7,15 @@ import com.todeb.rsakin.coursemanagementapplication.model.entity.Student;
 import com.todeb.rsakin.coursemanagementapplication.model.mapper.CourseMapper;
 import com.todeb.rsakin.coursemanagementapplication.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CourseService {
@@ -44,7 +47,10 @@ public class CourseService {
 
     public Course getById(Long id) {
         Optional<Course> byId = courseRepository.findById(id);
-        return byId.orElseThrow(() -> new EntityNotFoundException("Course", "id : " + id));
+        return byId.orElseThrow(() -> {
+            log.error("Course not found by id : " + id);
+            return new EntityNotFoundException("Course", "id : " + id);
+        });
     }
 
     public Course create(CourseDTO courseDTO) {
@@ -67,6 +73,7 @@ public class CourseService {
 //        Course course1 = new Course();
 //        course1.setId(courseByTitle.get().getId());
         Course updatedCourse = courseByTitle.get();
+        log.debug("Course title : " + course.getTitle());
         if (!StringUtils.isEmpty(course.getTitle())) {
             updatedCourse.setTitle(course.getTitle());
         }
@@ -81,5 +88,12 @@ public class CourseService {
         Course byId = getById(courseId);
         return byId.getStudents();
     }
+
+//    public static void main(String[] args) {
+//        Optional<String> test = Optional.of("");
+//
+//        String dEfault = test.orElse("DEfault");
+//        System.out.println("Result: " + dEfault);
+//    }
 
 }
