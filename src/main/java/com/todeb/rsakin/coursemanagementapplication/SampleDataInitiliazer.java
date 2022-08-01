@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -34,6 +35,11 @@ public class SampleDataInitiliazer implements ApplicationRunner {
 
         // Creating a sample Admin USER
         User adminUser = new User("admin-user", "adminuser@mail.com", "pass1234");
+
+        if(adminUser.getUsername() != null && !adminUser.getUsername().isEmpty()){
+            // @NotNull && @NotEmpty = @NotBlank
+        }
+
         if (!userRepository.existsByUsername(adminUser.getUsername())) {
             userService.signup(adminUser, true);
         }
