@@ -115,23 +115,25 @@ class CourseServiceTest {
         // init step
         Course expected = getSampleTestCourses().get(0);
         expected.setId(null);
-        Course actual = getSampleTestCourses().get(0);
 //        CourseDTO courseDTO = new CourseDTO();
 //        courseDTO.setTitle(expected.getTitle());
         // ...
 
         // stub - when step
-        Mockito.when(courseRepository.save(expected)).thenReturn(actual);
+        Mockito.when(courseRepository.save(Mockito.any())).thenReturn(expected);
 
         // then - validate step
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setTitle(expected.getTitle());
-        courseService.create(courseDTO);
+
+        Course actualCourse = courseService.create(courseDTO);
 
         // DTO mapping
 //        Course actual = courseService.create(expectedDTO);
 
-        Mockito.verify(courseRepository, Mockito.times(1)).save(Mockito.any());
+        Assert.assertEquals(expected.getTitle(), actualCourse.getTitle());
+        Assert.assertEquals(expected.getDetails(), actualCourse.getDetails());
+        Assert.assertEquals(expected.getQuota(), actualCourse.getQuota());
     }
 
     @Test
