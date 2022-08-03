@@ -20,6 +20,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CourseServiceTest {
@@ -139,10 +143,17 @@ class CourseServiceTest {
     @Test
     void delete() {
         // init step
+        Long courseId = 1L;
+        Course course = getSampleTestCourses().get(0);
 
         // stub - when step
+        Mockito.when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
+        doNothing().when(courseRepository).deleteById(courseId);
 
         // then - validate step
+        courseService.delete(1L);
+
+        verify(courseRepository, times(1)).deleteById(courseId);
     }
 
     @Test
