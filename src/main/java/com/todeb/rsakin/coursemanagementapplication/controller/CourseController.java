@@ -78,11 +78,11 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }
 
-    @GetMapping("/{course_id}/students")
-    public ResponseEntity getAllStudentsByCourse(@PathVariable("course_id") Long course_id) {
-        List<Student> allStudentsByCourse = courseService.getAllStudentsByCourse(course_id);
-        return ResponseEntity.ok().body(allStudentsByCourse);
-    }
+//    @GetMapping("/{course_id}/students")
+//    public ResponseEntity getAllStudentsByCourse(@PathVariable("course_id") Long course_id) {
+//        List<Student> allStudentsByCourse = courseService.getAllStudentsByCourse(course_id);
+//        return ResponseEntity.ok().body(allStudentsByCourse);
+//    }
 
 
 }

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -29,8 +28,10 @@ public class UserController {
     private UserService userService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_CLIENT')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping
     public List<User> getAllUsers() {
+        // TODO : Need to convert User -> UserDataDTO to hide special fields like password
         return userService.getAll();
     }
 
@@ -49,7 +50,7 @@ public class UserController {
         return userService.signup(user, false);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/delete/{username}")
     public String delete(@PathVariable String username) {
         userService.delete(username);

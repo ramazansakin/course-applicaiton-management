@@ -36,7 +36,7 @@ public class Course {
 //    @ManyToOne
 //    private Instructor instructor;
 
-    @ManyToMany(mappedBy = "courses", cascade = CascadeType.MERGE)
-    private List<Student> students;
+//    @ManyToMany(mappedBy = "courses", cascade = CascadeType.MERGE)
+//    private List<Student> students;
 
 }

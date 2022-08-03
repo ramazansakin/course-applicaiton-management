@@ -163,9 +163,9 @@ class CourseServiceTest {
 
     private List<Course> getSampleTestCourses() {
         List<Course> sampleList = new ArrayList<>();
-        Course course = new Course(1L, "Math", "Details 1", 45.9, 100, 0, 0, 0, null);
-        Course course2 = new Course(2L, "Physics", "Details 2", 45.9, 100, 0, 0, 0, null);
-        Course course3 = new Course(3L, "Chemistry", "Details 3", 45.9, 100, 0, 0, 0, null);
+        Course course = new Course(1L, "Math", "Details 1", 45.9, 100, 0, 0, 0);
+        Course course2 = new Course(2L, "Physics", "Details 2", 45.9, 100, 0, 0, 0);
+        Course course3 = new Course(3L, "Chemistry", "Details 3", 45.9, 100, 0, 0, 0);
         sampleList.add(course2);
         sampleList.add(course);
         sampleList.add(course3);

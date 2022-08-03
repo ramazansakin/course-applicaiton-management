@@ -84,10 +84,10 @@ public class CourseService {
         return courseRepository.save(updatedCourse);
     }
 
-    public List<Student> getAllStudentsByCourse(Long courseId) {
-        Course byId = getById(courseId);
-        return byId.getStudents();
-    }
+//    public List<Student> getAllStudentsByCourse(Long courseId) {
+//        Course byId = getById(courseId);
+//        return byId.getStudents();
+//    }
 
 //    public static void main(String[] args) {
 //        Optional<String> test = Optional.of("");
