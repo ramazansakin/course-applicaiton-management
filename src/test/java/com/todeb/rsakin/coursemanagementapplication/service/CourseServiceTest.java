@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -119,21 +120,24 @@ class CourseServiceTest {
         // init step
         Course expected = getSampleTestCourses().get(0);
         expected.setId(null);
+
 //        CourseDTO courseDTO = new CourseDTO();
 //        courseDTO.setTitle(expected.getTitle());
         // ...
 
         // stub - when step
-        Mockito.when(courseRepository.save(Mockito.any())).thenReturn(expected);
+        Mockito.when(courseRepository.save(any())).thenReturn(expected);
 
         // then - validate step
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setTitle(expected.getTitle());
+        courseDTO.setDetails(expected.getDetails());
+        courseDTO.setPrice(expected.getPrice());
+        courseDTO.setQuota(expected.getQuota());
 
         Course actualCourse = courseService.create(courseDTO);
 
-        // DTO mapping
-//        Course actual = courseService.create(expectedDTO);
+        verify(courseRepository, times(1)).save(expected);
 
         Assert.assertEquals(expected.getTitle(), actualCourse.getTitle());
         Assert.assertEquals(expected.getDetails(), actualCourse.getDetails());
