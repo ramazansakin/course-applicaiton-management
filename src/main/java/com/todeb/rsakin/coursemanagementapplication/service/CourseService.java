@@ -84,6 +84,10 @@ public class CourseService {
         return courseRepository.save(updatedCourse);
     }
 
+    public Course update2(Course course) {
+        return courseRepository.save(course);
+    }
+
     public List<Student> getAllStudentsByCourse(Long courseId) {
         Course byId = getById(courseId);
         return byId.getStudents();
